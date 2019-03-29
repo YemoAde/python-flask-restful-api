@@ -72,4 +72,4 @@ port = int(os.environ.get('PORT', 5000))
 if __name__ == "__main__":
     from Database.db import db
     db.init_app(app)
-    app.run(port=port)
+    app.run()
