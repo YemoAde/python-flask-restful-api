@@ -26,6 +26,11 @@ api.add_namespace(auth_ns, path='/auth')
 api.add_namespace(item_ns, path="/item")
 api.add_namespace(store_ns, path="/store")
 
+# ## Pre Run
+# @app.before_first_request
+# def create_tables():
+#     db.create_all()
+
 
 ##Handling errors
 @app.errorhandler(401)
