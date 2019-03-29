@@ -1,41 +1,35 @@
-from Database.db import Connection
+from Database.db import db
+from werkzeug.security import generate_password_hash
 
-class User:
-    def __init__(self, _id, username, password, **args):
-        self.id = _id
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80))
+    password = db.Column(db.Text)
+
+    def __init__(self, username, password):
         self.username = username
-        self.password = password
+        self.password = generate_password_hash(password)
+    
+    def json(self):
+        return {
+            'id': self.id,
+            'username': self.username
+        }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
     @classmethod
     def find_by_username(cls, username):
-        query = "SELECT * FROM users WHERE username = ?"
-        connection = Connection()
-        result = connection.select(query, (username,))
-        if result:
-            user = cls(*result)
-        else:
-            user = None
-        
-        connection.close()
-        return user
+        return cls.query.filter_by(username=username).first()
 
     @classmethod
     def find_by_id(cls, _id):
-        query = "SELECT * FROM users WHERE id = ?"
-        connection = Connection()
-        result = connection.select(query, (_id,))
-        if result:
-            user = cls(*result)
-        else:
-            user = None
-
-        connection.close()
-        return user
+        return cls.query.filter_by(id = _id).first()
     
-    @classmethod
-    def serialize(cls, user):
-        return {
-            'id': user.id,
-            'username': user.username
-        }
+    
+    
 

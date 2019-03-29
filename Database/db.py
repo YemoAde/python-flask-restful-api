@@ -2,6 +2,10 @@ import sqlite3
 import os
 from Util.response import ResponseHandler
 
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
 class Connection:
     def __init__(self):
         self.connection = sqlite3.connect(os.getenv('DB_URL'))

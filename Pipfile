@@ -11,6 +11,7 @@ flask-restplus = "*"
 python-dotenv = "*"
 flask-jwt-extended = "*"
 flask-sqlalchemy = "*"
+pymysql = "*"
 
 [requires]
 python_version = "3.7"
