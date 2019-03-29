@@ -69,6 +69,7 @@ def internal_error(error):
 # app.register_blueprint(api, url_prefix='/api')
 
 port = int(os.environ.get('PORT', 5000))
+
 if __name__ == "__main__":
     from Database.db import db
     db.init_app(app)
