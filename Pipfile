@@ -12,7 +12,7 @@ python-dotenv = "*"
 flask-jwt-extended = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
-uwsgi
+uwsgi = "*"
 
 [requires]
 python_version = "3.7"
