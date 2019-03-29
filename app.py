@@ -27,9 +27,7 @@ api.add_namespace(item_ns, path="/item")
 api.add_namespace(store_ns, path="/store")
 
 ## Pre Run
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
 
 
 ##Handling errors
@@ -71,5 +69,8 @@ def internal_error(error):
 port = int(os.environ.get('PORT', 5000))
 if __name__ == "__main__":
     from Database.db import db
+    @app.before_first_request
+    def create_tables():
+        db.create_all()
     db.init_app(app)
     app.run()
