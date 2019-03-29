@@ -1,4 +1,4 @@
-from auth import Auth
+from Util.auth import Auth
 from Database.db import Connection
 from flask import Flask, request
 from flask_restplus import Api, Namespace, Resource, fields, reqparse
@@ -22,14 +22,13 @@ class Register(Resource):
     @auth_ns.expect(user, validate=True)
     def post(self):
         data = Register.parser.parse_args()
-        connection = Connection()
-        user = User.find_by_username(data.username)
-        if user: 
+        if User.find_by_username(data.username): 
             return ResponseHandler.error('user exists', 400)
-        query = "INSERT INTO users (username, password) values(?, ?)"
-        connection.insert(query, (data.username, data.password))
-        connection.close
-        return {'message': 'User added'}, 200
+        user = User(**data)
+        user.save()
+        if user.id:
+            return ResponseHandler.success('User Added', 200, data=user.json())
+        return ResponseHandler.error('user not added', 400)
 
 @auth_ns.route('/login')
 class Login(Resource):
